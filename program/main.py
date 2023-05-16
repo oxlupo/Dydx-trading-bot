@@ -1,9 +1,19 @@
-from dydx3 import Client
-from web3 import Web3
-from pprint import pprint
-from datetime import datetime, timedelta
-
-from dydx3.constants import API_HOST_GOERLI
+from constant import ABORT_ALL_POSITION
+from func_connections import connect_dydx
 
 if __name__ == "__main__":
-    print("hello World")
+
+    # Connect to Client
+    try:
+        print("Connecting to Client ...")
+        client = connect_dydx()
+    except Exception as exp:
+        print(f"OOPS! Error Connecting to Client: {exp}")
+        exit(1)
+
+    # Abort all open positions
+    if ABORT_ALL_POSITION:
+        try:
+            print("Closing all positions")
+
+        except Exception as exp:

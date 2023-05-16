@@ -11,8 +11,10 @@ from constant import (
     HTTP_PROVIDER
 )
 
+
 def connect_dydx():
-    """Create Client Connection"""
+    """Create Client Connection
+    return client :return """
 
     client = Client(
         host=HOST,
