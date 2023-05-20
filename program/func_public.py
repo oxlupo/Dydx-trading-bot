@@ -40,7 +40,7 @@ def get_candles_historical(client, market):
 
         # Structure Data
         for candle in candles.data["candles"]:
-            close_prices.append({"datetime": candle["startAt"], market: candle["close"]})
+            close_prices.append({"datetime": candle["startedAt"], market: candle["close"] })
 
     # Construct and return DataFrame
     close_prices.reverse()
@@ -55,14 +55,35 @@ def construct_market_prices(client):
     markets = client.public.get_markets()
 
     for market in markets.data["markets"].keys():
-        market_info = market.data["market"][market]
+        market_info = markets.data["markets"][market]
         if market_info["status"] == "ONLINE" and market_info["type"] == "PERPETUAL":
             tradeable_markets.append(market)
 
     # Set initial DataFrame
-    close_prices = get_candles_historical(client, tradeable_markets, tradeable_markets[0])
-    # df = pd.DataFrame(close_prices)
-    # df.set_index("datetime", inplace=True)
-    pprint(close_prices)
+    close_prices = get_candles_historical(client, tradeable_markets[0])
+    df = pd.DataFrame(close_prices)
+    df.set_index("datetime", inplace=True)
+
+    # Append other prices to DataFrame
+    # You can limit the amount to loop though here to save time in development
+    for market in tradeable_markets[1:]:
+        close_prices_add = get_candles_historical(client, market)
+        df_add = pd.DataFrame(close_prices_add)
+        df_add.set_index("datetime", inplace=True)
+        df = pd.merge(df, df_add, how="outer", on="datetime", copy=False)
+        del df_add
+
+    # Check any columns with NaNs
+    nans = df.columns(df.isna().any()).tolist()
+    if len(nans) > 0:
+        print("Dropping columns:")
+        print(nans)
+        df.drop(columns=nans, inplace=True)
+
+    # Return result
+
+    print(df)
+    return df
+
 
 

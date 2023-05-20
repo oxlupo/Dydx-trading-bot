@@ -1,13 +1,16 @@
 from constant import ABORT_ALL_POSITION, FIND_COINTEGRATED
 from func_connections import connect_dydx
+from func_cointegration import store_cointegration_results
 from func_private import abort_all_positions
 from func_public import construct_market_prices
+from termcolor import colored
+
 
 if __name__ == "__main__":
 
     # Connect to Client
     try:
-        print("Connecting to Client ...")
+        print(colored("Connecting to Client ...", "yellow"))
         client = connect_dydx()
 
     except Exception as exp:
@@ -26,10 +29,15 @@ if __name__ == "__main__":
     # find Cointegrated Pairs
     if FIND_COINTEGRATED:
 
-        # Construct Market Price
+        # Stored Market Price
         try:
-            print("Fetching market please allow 3 mints...")
+            print(colored("Storing cointegrated pairs", "yellow"))
             df_market_price = construct_market_prices(client)
+            store_result = store_cointegration_results(df_market_price)
+            if store_result != "saved":
+                print("Error saving cointegrated pairs")
+                exit(1)
+
         except Exception as e:
-            print("Error constructing market prices", e)
+            print("Error saving cointegrated pairs", e)
             exit(1)

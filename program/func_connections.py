@@ -10,6 +10,7 @@ from constant import (
     STARK_PRIVATE_KEY,
     HTTP_PROVIDER
 )
+from termcolor import colored
 
 
 def connect_dydx():
@@ -33,8 +34,8 @@ def connect_dydx():
     account = client.private.get_account()
     account_id = account.data["account"]["id"]
     quote_balance = account.data["account"]["quoteBalance"]
-    print(f"**** Connection Successful **** \nAccount ID:{account_id}\nQuote Balance:{quote_balance}")
+    print(colored(f"**** Connection Successful **** \nAccount ID:{account_id}\nQuote Balance:{quote_balance}", "green"))
 
     # Return Client
-    return Client
+    return client
 
