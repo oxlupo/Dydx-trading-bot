@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
         # Stored Market Price
         try:
-            print(colored("Storing cointegrated pairs", "yellow"))
+            print(colored("Storing cointegrated pairs Please wait (maybe 3 mints) ... ", "yellow"))
             df_market_price = construct_market_prices(client)
             store_result = store_cointegration_results(df_market_price)
             if store_result != "saved":
