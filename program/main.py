@@ -9,6 +9,7 @@ if __name__ == "__main__":
     try:
         print("Connecting to Client ...")
         client = connect_dydx()
+
     except Exception as exp:
         print(f"OOPS! Error Connecting to Client: {exp}")
         exit(1)
