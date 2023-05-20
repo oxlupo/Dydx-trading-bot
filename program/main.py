@@ -14,7 +14,7 @@ if __name__ == "__main__":
         client = connect_dydx()
 
     except Exception as exp:
-        print(f"OOPS! Error Connecting to Client: {exp}")
+        print(colored("OOPS! Error Connecting to Client: {exp}", "red"))
         exit(1)
 
     # Abort all open positions
@@ -23,7 +23,7 @@ if __name__ == "__main__":
             print("Closing all positions")
             close_orders = abort_all_positions(client)
         except Exception as exp:
-            print(f"OOPS! Error Connecting to Client: {exp}")
+            print(colored("OOPS! Error Connecting to Client: {exp}", "red"))
             exit(1)
 
     # find Cointegrated Pairs
@@ -35,9 +35,9 @@ if __name__ == "__main__":
             df_market_price = construct_market_prices(client)
             store_result = store_cointegration_results(df_market_price)
             if store_result != "saved":
-                print("Error saving cointegrated pairs")
+                print(colored("Error saving cointegrated pairs", "red"))
                 exit(1)
 
         except Exception as e:
-            print("Error saving cointegrated pairs", e)
+            print(colored(f"Error saving cointegrated pairs: {e}", "red"))
             exit(1)
