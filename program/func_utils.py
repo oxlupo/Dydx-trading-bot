@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 
 def format_number(curr_num, match_num):
     """Format number
@@ -15,3 +17,39 @@ def format_number(curr_num, match_num):
         return curr_num_string
     else:
         return f"{int(curr_num)}"
+
+
+def format_time(timestamp):
+    """convert to iso format"""
+    return timestamp.replace(microsecond=0).isoformat()
+
+
+def get_ISO_times():
+    """Get ISO times"""
+    # Get timestamp
+    date_start_0 = datetime.now()
+    date_start_1 = date_start_0 - timedelta(hours=100)
+    date_start_2 = date_start_1 - timedelta(hours=100)
+    date_start_3 = date_start_2 - timedelta(hours=100)
+    date_start_4 = date_start_3 - timedelta(hours=100)
+
+    # Format datetime
+    times_dict = {
+        "range_1": {
+            "from_iso": format_time(date_start_1),
+            "to_iso": format_time(date_start_0)
+        },
+        "range_2": {
+            "from_iso": format_time(date_start_2),
+            "to_iso": format_time(date_start_1)
+        },
+        "range_3": {
+            "from_iso": format_time(date_start_3),
+            "to_iso": format_time(date_start_2)
+        },
+        "range_4": {
+            "from_iso": format_time(date_start_4),
+            "to_iso": format_time(date_start_3)
+        },
+    }
+    return times_dict
