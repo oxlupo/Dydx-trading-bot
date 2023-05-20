@@ -32,6 +32,7 @@ def connect_dydx():
 
     # Confirm Client
     account = client.private.get_account()
+
     account_id = account.data["account"]["id"]
     quote_balance = account.data["account"]["quoteBalance"]
     print(colored(f"**** Connection Successful **** \nAccount ID:{account_id}\nQuote Balance:{quote_balance}", "green"))
