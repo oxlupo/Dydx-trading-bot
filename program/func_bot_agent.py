@@ -158,4 +158,44 @@ class BotAgent:
         if order_status_m1 != "live":
             self.order_dict["pair_status"] = "ERROR"
             self.order_dict["comments"] = f"{self.market_1}: failed to fill"
+
+            # Close order 1:
+            try:
+                close_order = place_market_order(
+                    self.client,
+                    market=self.market_1,
+                    side=self.quote_side,
+                    size=self.base_size,
+                    price=self.accept_failsafe_base_price,
+                    reduce_only=True
+                )
+
+                # Ensure order is live before proceeding
+                time.sleep(2)
+                order_status_close_order = check_order_status(self.client, close_order["order"]["id"])
+                if order_status_close_order != "FILLED":
+                    print("ABORT PROGRAM")
+                    print("Unexpected Error")
+                    print(order_status_close_order)
+
+                    # Send Message
+
+
+                    # ABORT
+                    exit(1)
+            except Exception as e:
+                self.order_dict["pair_status"] = "ERROR"
+                self.order_dict["comments"] = f"Close Market 1 {self.market_1}: , {e}"
+                print("ABORT PROGRAM")
+                print("Unexpected Error")
+                print(order_status_close_order)
+
+                # Send Message
+
+                # ABORT
+                exit(1)
+
+        # Return success result
+        else:
+            self.order_dict["pair_status"] = "LIVE"
             return self.order_dict

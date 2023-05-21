@@ -4,6 +4,13 @@ import time
 from pprint import pprint
 
 
+# Check order status
+def check_order_status(client, order_id):
+    """ this function check the order status """
+    order = client.private.get_order_by_id(order_id)
+    return order.data["order"]["status"]
+
+
 def place_market_order(client, market, side, size, price, reduce_only):
 
     """Place market order"""

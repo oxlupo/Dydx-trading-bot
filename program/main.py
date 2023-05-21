@@ -14,7 +14,7 @@ if __name__ == "__main__":
         client = connect_dydx()
 
     except Exception as exp:
-        print(colored("OOPS! Error Connecting to Client: {exp}", "red"))
+        print(colored(f"OOPS! Error Connecting to Client: {exp}", "red"))
         exit(1)
 
     # Abort all open positions
@@ -23,7 +23,7 @@ if __name__ == "__main__":
             print("Closing all positions")
             close_orders = abort_all_positions(client)
         except Exception as exp:
-            print(colored("OOPS! Error Connecting to Client: {exp}", "red"))
+            print(colored(f"OOPS! Error Connecting to Client: {exp}", "red"))
             exit(1)
 
     # find Cointegrated Pairs
