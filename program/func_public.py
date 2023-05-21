@@ -74,7 +74,7 @@ def construct_market_prices(client):
         del df_add
 
     # Check any columns with NaNs
-    nans = df.columns(df.isna().any()).tolist()
+    nans = df.columns[df.isna().any()].tolist()
     if len(nans) > 0:
         print("Dropping columns:")
         print(nans)
