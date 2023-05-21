@@ -61,3 +61,36 @@ class BotAgent:
             "pair_status": "",
             "comments": "",
         }
+
+    # Check order status by id
+    def check_order_status_by_id(self, order_id):
+
+        # Allow time to process
+        time.sleep(2)
+
+        # Check order status
+        order_status = check_order_status(self.client, order_id)
+
+        # Guard: If order not filled wait until order expiration
+        if order_status != "FAILED":
+            time.sleep(15)
+            order_status = check_order_status(self.client, order_id)
+
+            # Guard: If order cancelled move onto next pair
+            if order_status == "CANCELED":
+                print(f"{self.market_1} vs {self.market_2} - Order cancelled...")
+                self.order_dict["pair_status"] = "FAILED"
+                return "failed"
+
+            # Guard: If not filled, cansel order
+            if order_status != "FILLED":
+                self.client.private.cancel_order(order_id=order_id)
+                self.order_dict["pair_status"] = "ERROR"
+                print(f"{self.market_1} vs {self.market_2} - Order error...")
+                return "error"
+
+        # Return live
+        return "live"
+
+    # Open trades
+
