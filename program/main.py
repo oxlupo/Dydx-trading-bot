@@ -1,9 +1,10 @@
-from constant import ABORT_ALL_POSITION, FIND_COINTEGRATED
+from constant import ABORT_ALL_POSITION, FIND_COINTEGRATED, PLACE_TRADES
 from func_connections import connect_dydx
 from func_cointegration import store_cointegration_results
 from func_private import abort_all_positions
 from func_public import construct_market_prices
 from termcolor import colored
+from func_entry_pairs import open_positions
 
 
 if __name__ == "__main__":
@@ -41,3 +42,25 @@ if __name__ == "__main__":
         except Exception as e:
             print(colored(f"Error saving cointegrated pairs: {e}", "red"))
             exit(1)
+
+
+
+
+
+        # Place trade for opening positions
+        try:
+            print(colored("Finding trading opportunities", "yellow"))
+            open_positions(client)
+
+        except Exception as e:
+            print(colored(f"Error trading pairs: {e}", "red"))
+            exit(1)
+
+        if PLACE_TRADES:
+            try:
+                print("Finding trading opportunities...")
+                open_positions(client)
+            except Exception as e:
+                print("Error trading pairs: ", e)
+
+                exit(1)

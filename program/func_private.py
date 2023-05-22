@@ -96,3 +96,23 @@ def abort_all_positions(client):
 
         # Return closed orders
         return close_orders
+
+
+# Get existing open positions
+def is_open_positions(client, market):
+    """ get existing open positions """
+
+    # Protect API
+    time.sleep(0.2)
+
+    # Get positions
+    all_positions = client.private.get_positions(
+        market=market,
+        status="OPEN"
+    )
+
+    # Detrmine if open
+    if len(all_positions["positions"]) > 0:
+        return True
+    else:
+        return False
