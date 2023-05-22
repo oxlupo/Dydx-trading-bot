@@ -71,5 +71,4 @@ if __name__ == "__main__":
                 open_positions(client)
             except Exception as e:
                 print("Error trading pairs: ", e)
-
                 exit(1)
