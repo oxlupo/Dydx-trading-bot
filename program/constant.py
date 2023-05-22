@@ -10,8 +10,11 @@ ABORT_ALL_POSITION = False
 # Find cointegrated pairs
 FIND_COINTEGRATED = False
 
+#  Place Trades
+MANAGE_EXITS = True
+
 # Place Trades
-PLACE_TRADES = True
+PLACE_TRADES = False
 
 # Resolution
 RESOLUTION = "1HOUR"

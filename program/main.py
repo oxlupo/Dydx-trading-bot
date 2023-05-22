@@ -1,10 +1,11 @@
-from constant import ABORT_ALL_POSITION, FIND_COINTEGRATED, PLACE_TRADES
+from constant import ABORT_ALL_POSITION, FIND_COINTEGRATED, PLACE_TRADES, MANAGE_EXITS
 from func_connections import connect_dydx
 from func_cointegration import store_cointegration_results
 from func_private import abort_all_positions
 from func_public import construct_market_prices
 from termcolor import colored
 from func_entry_pairs import open_positions
+from func_exit_pairs import manage_trade_exits
 
 
 if __name__ == "__main__":
@@ -56,6 +57,14 @@ if __name__ == "__main__":
             print(colored(f"Error trading pairs: {e}", "red"))
             exit(1)
 
+        if MANAGE_EXITS:
+            try:
+                print("Manage exits...")
+                manage_trade_exits(client)
+            except Exception as e:
+                print("Error managing exiting positions", e)
+
+                exit(1)
         if PLACE_TRADES:
             try:
                 print("Finding trading opportunities...")
