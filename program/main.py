@@ -6,7 +6,7 @@ from func_public import construct_market_prices
 from termcolor import colored
 from func_entry_pairs import open_positions
 from func_exit_pairs import manage_trade_exits
-
+from func_massaging import send_massage
 
 if __name__ == "__main__":
 
@@ -44,31 +44,29 @@ if __name__ == "__main__":
             print(colored(f"Error saving cointegrated pairs: {e}", "red"))
             exit(1)
 
+        while True:
 
-
-
-
-        # Place trade for opening positions
-        try:
-            print(colored("Finding trading opportunities", "yellow"))
-            open_positions(client)
-
-        except Exception as e:
-            print(colored(f"Error trading pairs: {e}", "red"))
-            exit(1)
-
-        if MANAGE_EXITS:
+            # Place trade for opening positions
             try:
-                print("Manage exits...")
-                manage_trade_exits(client)
-            except Exception as e:
-                print("Error managing exiting positions", e)
-
-                exit(1)
-        if PLACE_TRADES:
-            try:
-                print("Finding trading opportunities...")
+                print(colored("Finding trading opportunities", "yellow"))
                 open_positions(client)
+
             except Exception as e:
-                print("Error trading pairs: ", e)
+                print(colored(f"Error trading pairs: {e}", "red"))
                 exit(1)
+
+            if MANAGE_EXITS:
+                try:
+                    print("Manage exits...")
+                    manage_trade_exits(client)
+                except Exception as e:
+                    print("Error managing exiting positions", e)
+
+                    exit(1)
+            if PLACE_TRADES:
+                try:
+                    print("Finding trading opportunities...")
+                    open_positions(client)
+                except Exception as e:
+                    print("Error trading pairs: ", e)
+                    exit(1)

@@ -27,6 +27,13 @@ def open_positions(client):
 
     # Initialize container for BotAgent results
     bot_agents = []
+    try:
+        open_positions_file = open("bot_agents.json")
+        open_positions_dict = json.load(open_positions_file)
+        for p in open_positions_dict:
+            bot_agents.append(p)
+    except:
+        bot_agents = []
 
     for index, row in df.iterrows():
 
@@ -135,7 +142,8 @@ def open_positions(client):
                             print("---")
     # Save agents
     print(f"Success:{len(bot_agents)} new pairs LIVE")
-    with open("bot_agents.json", "w") as f:
-        json.dump(bot_agents, f)
+    if len(bot_agents) > 0:
+        with open("bot_agents.json", "w") as f:
+            json.dump(bot_agents, f)
 
 
